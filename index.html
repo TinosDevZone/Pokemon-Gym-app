@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pokémon Fans Gym Centre</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            background-color: #cc0000;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+        nav {
+            background-color: #333;
+            color: white;
+            padding: 0.5em;
+        }
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: space-around;
+        }
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        .content {
+            background-color: white;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pokémon Fans Gym Centre</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#" onclick="showSection('home')">Home</a></li>
+            <li><a href="#" onclick="showSection('schedule')">Training Schedule</a></li>
+            <li><a href="#" onclick="showSection('booking')">Book a Battle</a></li>
+            <li><a href="#" onclick="showSection('leaders')">Gym Leaders</a></li>
+            <li><a href="#" onclick="showSection('account')">Trainer Account</a></li>
+        </ul>
+    </nav>
+    <div class="container">
+        <div id="home" class="content">
+            <h2>Welcome to the Pokémon Fans Gym Centre!</h2>
+            <p>Train, battle, and become the very best like no one ever was!</p>
+        </div>
+        <div id="schedule" class="content hidden">
+            <h2>Training Schedule</h2>
+            <ul id="scheduleList"></ul>
+        </div>
+        <div id="booking" class="content hidden">
+            <h2>Book a Battle</h2>
+            <form id="bookingForm">
+                <label for="battleDay">Day:</label>
+                <select id="battleDay" required>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                </select>
+                <label for="battleType">Battle Type:</label>
+                <select id="battleType" required>
+                    <option value="Water">Water</option>
+                    <option value="Fire">Fire</option>
+                    <option value="Grass">Grass</option>
+                </select>
+                <button type="submit">Book Battle</button>
+            </form>
+        </div>
+        <div id="leaders" class="content hidden">
+            <h2>Gym Leaders</h2>
+            <ul id="leadersList"></ul>
+        </div>
+        <div id="account" class="content hidden">
+            <h2>Trainer Account</h2>
+            <div id="accountInfo"></div>
+        </div>
+    </div>
+
+    <script>
+        // Sample data
+        const trainingSchedule = {
+            "Monday": ["Water Type Training", "Fire Type Battles"],
+            "Tuesday": ["Grass Type Training", "Electric Type Battles"],
+            "Wednesday": ["Psychic Type Meditation", "Dragon Type Endurance"]
+        };
+        const gymLeaders = {
+            "Misty": "Water type specialist - Cerulean City Gym Leader",
+            "Brock": "Rock type expert - Pewter City Gym Leader"
+        };
+        const trainerAccount = {
+            "Trainer Name": "Tino",
+            "Badges": 3,
+            "Favorite Pokémon": "Totodile"
+        };
+
+        // Function to show selected section
+        function showSection(sectionId) {
+            document.querySelectorAll('.content').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+
+            if (sectionId === 'schedule') {
+                displaySchedule();
+            } else if (sectionId === 'leaders') {
+                displayLeaders();
+            } else if (sectionId === 'account') {
+                displayAccount();
+            }
+        }
+
+        // Display training schedule
+        function displaySchedule() {
+            const scheduleList = document.getElementById('scheduleList');
+            scheduleList.innerHTML = '';
+            for (const [day, classes] of Object.entries(trainingSchedule)) {
+                const li = document.createElement('li');
+                li.textContent = `${day}: ${classes.join(', ')}`;
+                scheduleList.appendChild(li);
+            }
+        }
+
+        // Display gym leaders
+        function displayLeaders() {
+            const leadersList = document.getElementById('leadersList');
+            leadersList.innerHTML = '';
+            for (const [name, info] of Object.entries(gymLeaders)) {
+                const li = document.createElement('li');
+                li.textContent = `${name}: ${info}`;
+                leadersList.appendChild(li);
+            }
+        }
+
+        // Display trainer account
+        function displayAccount() {
+            const accountInfo = document.getElementById('accountInfo');
+            accountInfo.innerHTML = '';
+            for (const [key, value] of Object.entries(trainerAccount)) {
+                const p = document.createElement('p');
+                p.textContent = `${key}: ${value}`;
+                accountInfo.appendChild(p);
+            }
+        }
+
+        // Handle battle booking
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const day = document.getElementById('battleDay').value;
+            const type = document.getElementById('battleType').value;
+            alert(`Booked a ${type} type battle for ${day}`);
+        });
+
+        // Initialize home page
+        showSection('home');
+    </script>
+</body>
+</html>
